@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://bex28lbnv4088"]
 
-[ext_resource type="Shader" uid="uid://bnhp61be2244k" path="res://Asset/Mesh/Material/Shader/Lawn.tres" id="1_ps24n"]
+[ext_resource type="Shader" uid="uid://bnhp61be2244k" path="res://assets/Mesh/Material/Shader/Lawn.tres" id="1_ps24n"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_2te2m"]
 frequency = 0.0063

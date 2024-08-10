@@ -1,7 +1,7 @@
 [gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://bsioo1jirf8bm"]
 
-[ext_resource type="Shader" uid="uid://bnhp61be2244k" path="res://Asset/Mesh/Material/Shader/Lawn.tres" id="1_sh1rh"]
-[ext_resource type="Texture2D" uid="uid://bumt6su3jxgry" path="res://Asset/Mesh/Material/Shader/LawnDetail.tres" id="2_33ane"]
+[ext_resource type="Shader" uid="uid://bnhp61be2244k" path="res://assets/Mesh/Material/Shader/Lawn.tres" id="1_sh1rh"]
+[ext_resource type="Texture2D" uid="uid://bumt6su3jxgry" path="res://assets/Mesh/Material/Shader/LawnDetail.tres" id="2_33ane"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_roqhm"]
 frequency = 0.0191
