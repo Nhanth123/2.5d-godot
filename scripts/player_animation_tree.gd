@@ -13,3 +13,6 @@ func changeStateToAirborne():
 
 func changeStateToNormal():
 	state = Normal
+
+func checkIfStateIsAirborne():
+	return state == Airborne
