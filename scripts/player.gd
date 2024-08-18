@@ -10,6 +10,13 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _process(_delta):
 	animation_tree.set("parameters/StateMachine/GroundMovement/blend_position", abs(velocity.x))
+	animation_tree.set("parameters/StateMachine/Airborne/blend_position", velocity.y)
+	
+	if is_on_floor():
+		animation_tree.changeStateToNormal()
+	else:
+		animation_tree.changeStateToAirborne()
+		
 
 func _physics_process(delta):
 	
