@@ -37,7 +37,7 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity * delta * 8
 	
-	if Input.is_action_just_pressed("jump")and is_on_floor():
+	if Input.is_action_just_pressed("jump"): #and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 		playGroundSmokeVFX()
 	
@@ -75,5 +75,6 @@ func playGroundSmokeVFX():
 	
 	await get_tree().create_timer(0.6).timeout
 	vfxInstance.queue_free()
-	
-	
+
+func applyDamage():
+	print("hitted by spikeTrap")
