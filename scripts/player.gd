@@ -3,6 +3,7 @@ extends CharacterBody3D
 @onready var root_node: Node3D = $Visual/RootNode
 @onready var animation_tree: AnimationTree = $Visual/AnimationTree
 @onready var footstep_vfx: GPUParticles3D = $Visual/VFX/Footstep_VFX
+@onready var animation_player_material: AnimationPlayer = $Visual/AnimationPlayer_Material
 
 
 const SPEED = 10
@@ -13,6 +14,8 @@ var currentHealth
 var controllable = true
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+var isInvicible = false
+
 
 func _ready() -> void:
 	currentHealth = maxHealth
@@ -91,18 +94,23 @@ func playGroundSmokeVFX():
 	vfxInstance.queue_free()
 
 func applyDamage():
-	if currentHealth == 0:
+	if currentHealth == 0 || isInvicible:
 		return
 	
 	currentHealth -= 1
-	print(currentHealth)
+	#print(currentHealth)
 	controllable = false
-	
+	isInvicible = true
 	if currentHealth <= 0 :
 		animation_tree.changeStateToDead()
 	else:
-		await get_tree().create_timer(0.8).timeout
+		animation_tree.set("parameters/OneShotHurt/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+		animation_player_material.play("Flash_Invincible")
+		await get_tree().create_timer(0.9).timeout
 		controllable = true
+		await get_tree().create_timer(1.0).timeout
+		animation_player_material.play("RESET")
+		isInvicible = false
 		
 
 func updateHorizontalVelocity():
