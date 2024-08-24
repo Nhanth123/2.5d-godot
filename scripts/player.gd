@@ -5,10 +5,18 @@ extends CharacterBody3D
 @onready var footstep_vfx: GPUParticles3D = $Visual/VFX/Footstep_VFX
 
 
-const  SPEED = 10
-const  JUMP_VELOCITY = 22
+const SPEED = 10
+const JUMP_VELOCITY = 22
+const maxHealth = 3
+
+var currentHealth
+var controllable = true
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+
+func _ready() -> void:
+	currentHealth = maxHealth
+	
 
 func _process(_delta):
 	
@@ -21,10 +29,15 @@ func _process(_delta):
 		animation_tree.changeStateToNormal()
 	else:
 		animation_tree.changeStateToAirborne()
-		
+
 
 func _physics_process(delta):
-	
+	if controllable == false:
+		updateHorizontalVelocity()
+		updateVerticalVelocity(delta)
+		move_and_slide()
+		return
+		
 #region Rotate the Player to moving the direction Region
 	if velocity.x != 0:
 		var faceRight = velocity.x > 0
@@ -35,7 +48,7 @@ func _physics_process(delta):
 #endregion
 
 	if not is_on_floor():
-		velocity.y -= gravity * delta * 8
+		updateVerticalVelocity(delta)
 	
 	if Input.is_action_just_pressed("jump"): #and is_on_floor():
 		velocity.y = JUMP_VELOCITY
@@ -47,6 +60,7 @@ func _physics_process(delta):
 		horizontalInput = int(horizontalInput)
 		velocity.x = horizontalInput * SPEED
 	else:
+		updateHorizontalVelocity()
 		velocity.x = move_toward(velocity.x, 0, 1)
 	
 	move_and_slide()
@@ -77,4 +91,22 @@ func playGroundSmokeVFX():
 	vfxInstance.queue_free()
 
 func applyDamage():
-	print("hitted by spikeTrap")
+	if currentHealth == 0:
+		return
+	
+	currentHealth -= 1
+	print(currentHealth)
+	controllable = false
+	
+	if currentHealth <= 0 :
+		animation_tree.changeStateToDead()
+	else:
+		await get_tree().create_timer(0.8).timeout
+		controllable = true
+		
+
+func updateHorizontalVelocity():
+	velocity.x = move_toward(velocity.x, 0, 1)
+	
+func updateVerticalVelocity(delta):
+	velocity.y -= gravity * delta * 8

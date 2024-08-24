@@ -9,10 +9,15 @@ enum {
 var state
 
 func changeStateToAirborne():
-	state = Airborne
+	if state != Dead:
+		state = Airborne
 
 func changeStateToNormal():
-	state = Normal
+	if state != Dead:
+		state = Normal
 
 func checkIfStateIsAirborne():
 	return state == Airborne
+
+func changeStateToDead():
+	state = Dead
