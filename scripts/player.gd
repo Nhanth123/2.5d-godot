@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+class_name Player
+
 @onready var root_node: Node3D = $Visual/RootNode
 @onready var animation_tree: AnimationTree = $Visual/AnimationTree
 @onready var footstep_vfx: GPUParticles3D = $Visual/VFX/Footstep_VFX
@@ -16,6 +18,7 @@ var controllable = true
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var isInvicible = false
 
+signal currentHealthUpdated(newValue)
 
 func _ready() -> void:
 	currentHealth = maxHealth
@@ -101,6 +104,10 @@ func applyDamage():
 	#print(currentHealth)
 	controllable = false
 	isInvicible = true
+	#currentHealthUpdated.emit(currentHealth)
+	emit_signal("currentHealthUpdated", currentHealth)
+	
+	
 	if currentHealth <= 0 :
 		animation_tree.changeStateToDead()
 	else:
