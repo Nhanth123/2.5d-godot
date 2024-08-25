@@ -104,8 +104,7 @@ func applyDamage():
 	#print(currentHealth)
 	controllable = false
 	isInvicible = true
-	#currentHealthUpdated.emit(currentHealth)
-	emit_signal("currentHealthUpdated", currentHealth)
+	currentHealthUpdated.emit(currentHealth)
 	
 	
 	if currentHealth <= 0 :
