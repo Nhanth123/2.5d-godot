@@ -124,3 +124,12 @@ func updateHorizontalVelocity():
 	
 func updateVerticalVelocity(delta):
 	velocity.y -= gravity * delta * 8
+
+func addHealth():
+	if currentHealth == maxHealth:
+		return false
+		
+	currentHealth += 1
+	
+	currentHealthUpdated.emit(currentHealth)
+	return true
