@@ -6,6 +6,7 @@ class_name Player
 @onready var animation_tree: AnimationTree = $Visual/AnimationTree
 @onready var footstep_vfx: GPUParticles3D = $Visual/VFX/Footstep_VFX
 @onready var animation_player_material: AnimationPlayer = $Visual/AnimationPlayer_Material
+@onready var heal_player_vfx: GPUParticles3D = $Visual/VFX/HEAL_Player_VFX
 
 
 const SPEED = 10
@@ -130,6 +131,8 @@ func addHealth():
 		return false
 		
 	currentHealth += 1
+	animation_player_material.play("Flash_Heal")
+	heal_player_vfx.restart()
 	
 	currentHealthUpdated.emit(currentHealth)
 	return true
