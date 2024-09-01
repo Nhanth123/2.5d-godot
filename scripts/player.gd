@@ -4,10 +4,10 @@ class_name Player
 
 @onready var root_node: Node3D = $Visual/RootNode
 @onready var animation_tree: AnimationTree = $Visual/AnimationTree
-@onready var footstep_vfx: GPUParticles3D = $Visual/VFX/Footstep_VFX
+@onready var footstep_vfx: GPUParticles3D = $Visual/RootNode/VFX/Footstep_VFX
 @onready var animation_player_material: AnimationPlayer = $Visual/AnimationPlayer_Material
-@onready var heal_player_vfx: GPUParticles3D = $Visual/VFX/HEAL_Player_VFX
-
+@onready var heal_player_vfx: GPUParticles3D = $Visual/RootNode/VFX/HEAL_Player_VFX
+@onready var melee_vfx = $Visual/RootNode/VFX/MELEE_VFX
 
 const SPEED = 10
 const JUMP_VELOCITY = 22

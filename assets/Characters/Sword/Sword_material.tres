@@ -1,9 +1,9 @@
 [gd_resource type="StandardMaterial3D" load_steps=5 format=3 uid="uid://noatgp3m8rgk"]
 
-[ext_resource type="Texture2D" uid="uid://7sxf2m6ro5ux" path="res://Asset/Characters/Sword/Texture/Base.png" id="1_ih3s0"]
-[ext_resource type="Texture2D" uid="uid://c04ay0a2jbfmb" path="res://Asset/Characters/Sword/Texture/Emission.png" id="2_u6pbw"]
-[ext_resource type="Texture2D" uid="uid://dkp7h5ih8kj4x" path="res://Asset/Characters/Sword/Texture/MetallicSmoothness.png" id="3_vq0t2"]
-[ext_resource type="Texture2D" uid="uid://5lyhgdut37ym" path="res://Asset/Characters/Sword/Texture/Normal.png" id="4_1r5or"]
+[ext_resource type="Texture2D" uid="uid://7sxf2m6ro5ux" path="res://assets/Characters/Sword/Texture/Base.png" id="1_ih3s0"]
+[ext_resource type="Texture2D" uid="uid://c04ay0a2jbfmb" path="res://assets/Characters/Sword/Texture/Emission.png" id="2_u6pbw"]
+[ext_resource type="Texture2D" uid="uid://dkp7h5ih8kj4x" path="res://assets/Characters/Sword/Texture/MetallicSmoothness.png" id="3_vq0t2"]
+[ext_resource type="Texture2D" uid="uid://5lyhgdut37ym" path="res://assets/Characters/Sword/Texture/Normal.png" id="4_1r5or"]
 
 [resource]
 albedo_texture = ExtResource("1_ih3s0")

@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://bshyystxeothe"]
 
-[ext_resource type="Shader" uid="uid://t5nbhasjxf4p" path="res://Asset/Mesh/Material/Shader/BladeShader.tres" id="1_8v3jb"]
+[ext_resource type="Shader" uid="uid://t5nbhasjxf4p" path="res://assets/Mesh/Material/Shader/BladeShader.tres" id="1_8v3jb"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_4ngex"]
 noise_type = 2
