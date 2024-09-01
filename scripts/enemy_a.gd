@@ -10,6 +10,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var root_node: Node3D = $Visual/RootNode
 @onready var collision_shape_3d: CollisionShape3D = $CollisionShape3D
 @onready var animation_player: AnimationPlayer = $Visual/AnimationPlayer
+@onready var animation_player_material: AnimationPlayer = $Visual/AnimationPlayer_Material
 
 
 var direction
@@ -43,3 +44,8 @@ func _process(delta: float):
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
 	body.applyDamage()
+
+
+func applyDamage(damage: int):
+	animation_player_material.play("Flash")
+	

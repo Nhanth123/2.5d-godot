@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://blel3qc4m3pb8"]
+[gd_scene load_steps=17 format=4 uid="uid://blel3qc4m3pb8"]
 
 [ext_resource type="Script" path="res://scripts/enemy_a.gd" id="1_pji6f"]
 [ext_resource type="Material" uid="uid://6y8a7flk0cxy" path="res://assets/Characters/NPC/NPC_01/npc_01_material.tres" id="2_jbdbw"]
@@ -2303,12 +2303,48 @@ _data = {
 "NPC_01_WALK": SubResource("Animation_cagn1")
 }
 
+[sub_resource type="Animation" id="Animation_ewb3j"]
+resource_name = "Flash"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RootNode/GAME RIG 01/Skeleton3D/NPC 01 Mesh:material_override:shader_parameter/FlashEffect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_vmax2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RootNode/GAME RIG 01/Skeleton3D/NPC 01 Mesh:material_override:shader_parameter/FlashEffect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nlncl"]
+_data = {
+"Flash": SubResource("Animation_ewb3j"),
+"RESET": SubResource("Animation_vmax2")
+}
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_26d4x"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bwjlv"]
 
 [node name="Enemy_A" type="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.5, 5.5, 0)
 collision_layer = 4
 script = ExtResource("1_pji6f")
 
@@ -2652,6 +2688,11 @@ skin = SubResource("Skin_b86da")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Visual"]
 libraries = {
 "": SubResource("AnimationLibrary_phrb5")
+}
+
+[node name="AnimationPlayer_Material" type="AnimationPlayer" parent="Visual"]
+libraries = {
+"": SubResource("AnimationLibrary_nlncl")
 }
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
