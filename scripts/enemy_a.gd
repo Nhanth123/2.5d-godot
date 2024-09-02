@@ -46,6 +46,6 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 	body.applyDamage()
 
 
-func applyDamage(damage: int):
+func applyDamage(_damage: int):
 	animation_player_material.play("Flash")
 	

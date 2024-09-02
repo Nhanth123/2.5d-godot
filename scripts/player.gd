@@ -19,6 +19,10 @@ var controllable = true
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var isInvicible = false
 
+var uncontrolableRemain = 0
+var getHurtCooldown = 1
+
+
 signal currentHealthUpdated(newValue)
 
 func _ready() -> void:
@@ -29,6 +33,9 @@ func _process(_delta):
 	
 	handMovementVFX()
 	
+	if currentHealth <= 0:
+		return
+	
 	animation_tree.set("parameters/StateMachine/GroundMovement/blend_position", abs(velocity.x))
 	animation_tree.set("parameters/StateMachine/Airborne/blend_position", velocity.y)
 	
@@ -36,7 +43,13 @@ func _process(_delta):
 		animation_tree.changeStateToNormal()
 	else:
 		animation_tree.changeStateToAirborne()
-
+	
+	if controllable == false && currentHealth > 0:
+		uncontrolableRemain -= _delta
+		if uncontrolableRemain <= 0:
+			uncontrolableRemain = 0
+			controllable = true
+	
 
 func _physics_process(delta):
 	if controllable == false:
@@ -104,6 +117,9 @@ func applyDamage():
 	currentHealth -= 1
 	#print(currentHealth)
 	controllable = false
+	
+	uncontrolableRemain += getHurtCooldown
+	
 	isInvicible = true
 	currentHealthUpdated.emit(currentHealth)
 	
@@ -113,9 +129,7 @@ func applyDamage():
 	else:
 		animation_tree.set("parameters/OneShotHurt/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 		animation_player_material.play("Flash_Invincible")
-		await get_tree().create_timer(0.9).timeout
-		controllable = true
-		await get_tree().create_timer(1.0).timeout
+		await get_tree().create_timer(2).timeout
 		animation_player_material.play("RESET")
 		isInvicible = false
 		
