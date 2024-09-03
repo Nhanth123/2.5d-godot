@@ -8,6 +8,8 @@ class_name Player
 @onready var animation_player_material: AnimationPlayer = $Visual/AnimationPlayer_Material
 @onready var heal_player_vfx: GPUParticles3D = $Visual/RootNode/VFX/HEAL_Player_VFX
 @onready var melee_vfx = $Visual/RootNode/VFX/MELEE_VFX
+@onready var area_3d_hitbox: Area3D = $Visual/RootNode/Area3D_Hitbox
+@onready var animation_player_blade_vfx: AnimationPlayer = $Visual/RootNode/VFX/AnimationPlayer_BladeVFX
 
 const SPEED = 10
 const JUMP_VELOCITY = 22
@@ -21,12 +23,14 @@ var isInvicible = false
 
 var uncontrolableRemain = 0
 var getHurtCooldown = 1
-
+var meleeAttackCooldown = 0.6
+var meleeAttackDamage = 10
 
 signal currentHealthUpdated(newValue)
 
 func _ready() -> void:
 	currentHealth = maxHealth
+	area_3d_hitbox.monitoring = false
 	
 
 func _process(_delta):
@@ -49,6 +53,18 @@ func _process(_delta):
 		if uncontrolableRemain <= 0:
 			uncontrolableRemain = 0
 			controllable = true
+	
+	if controllable == true && Input.is_action_just_pressed("MeleeAttack"):
+		controllable = false
+		uncontrolableRemain += meleeAttackCooldown
+		
+		animation_tree.set("parameters/OneShotMelee/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+		animation_player_blade_vfx.play("PlayBladeVFX")
+		
+		area_3d_hitbox.monitoring = true
+		await get_tree().create_timer(0.3).timeout
+		area_3d_hitbox.monitoring = false
+		
 	
 
 func _physics_process(delta):
@@ -115,7 +131,6 @@ func applyDamage():
 		return
 	
 	currentHealth -= 1
-	#print(currentHealth)
 	controllable = false
 	
 	uncontrolableRemain += getHurtCooldown
@@ -123,10 +138,10 @@ func applyDamage():
 	isInvicible = true
 	currentHealthUpdated.emit(currentHealth)
 	
-	
 	if currentHealth <= 0 :
 		animation_tree.changeStateToDead()
 	else:
+		animation_tree.set("parameters/OneShotMelee/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_ABORT)
 		animation_tree.set("parameters/OneShotHurt/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 		animation_player_material.play("Flash_Invincible")
 		await get_tree().create_timer(2).timeout
@@ -150,3 +165,7 @@ func addHealth():
 	
 	currentHealthUpdated.emit(currentHealth)
 	return true
+
+
+func _on_area_3d_hitbox_body_entered(body: Node3D) -> void:
+	body.applyDamage(meleeAttackDamage)

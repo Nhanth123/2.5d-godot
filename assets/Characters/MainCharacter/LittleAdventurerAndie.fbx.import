@@ -4,11 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://34307smvijwx"
-valid=false
+path="res://.godot/imported/LittleAdventurerAndie.fbx-0648632598bc32b37741c90e97d6589e.scn"
 
 [deps]
 
 source_file="res://assets/Characters/MainCharacter/LittleAdventurerAndie.fbx"
+dest_files=["res://.godot/imported/LittleAdventurerAndie.fbx-0648632598bc32b37741c90e97d6589e.scn"]
 
 [params]
 

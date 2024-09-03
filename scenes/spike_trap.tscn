@@ -10,8 +10,10 @@ size = Vector3(1.7, 1, 5)
 script = ExtResource("1_vqmy3")
 
 [node name="ITEM_SPIKE_TRAP_SHORT" parent="." instance=ExtResource("2_xuadx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
 
 [node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -2.5)
 collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
