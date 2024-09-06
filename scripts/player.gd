@@ -27,6 +27,7 @@ var meleeAttackCooldown = 0.6
 var meleeAttackDamage = 10
 
 signal currentHealthUpdated(newValue)
+signal playerHasReachedTheDoor()
 
 func _ready() -> void:
 	currentHealth = maxHealth
@@ -48,7 +49,7 @@ func _process(_delta):
 	else:
 		animation_tree.changeStateToAirborne()
 	
-	if controllable == false && currentHealth > 0:
+	if controllable == false && currentHealth > 0 && uncontrolableRemain > 0:
 		uncontrolableRemain -= _delta
 		if uncontrolableRemain <= 0:
 			uncontrolableRemain = 0
@@ -177,3 +178,8 @@ func _on_area_3d_hitbox_body_entered(body: Node3D) -> void:
 	
 	for item in melee_vfx.get_children():
 		item.restart()
+
+func reachedTheDoor():
+	controllable = false
+	uncontrolableRemain = -1
+	playerHasReachedTheDoor.emit()
