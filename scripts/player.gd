@@ -169,3 +169,11 @@ func addHealth():
 
 func _on_area_3d_hitbox_body_entered(body: Node3D) -> void:
 	body.applyDamage(meleeAttackDamage)
+	
+	var vfx_position = body.global_position
+	vfx_position.y += 1.5
+	vfx_position.z += 1
+	melee_vfx.global_position = vfx_position
+	
+	for item in melee_vfx.get_children():
+		item.restart()
