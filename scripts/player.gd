@@ -19,7 +19,7 @@ var currentHealth
 var controllable = true
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-var isInvicible = false
+var isInvincible = false
 
 var uncontrolableRemain = 0
 var getHurtCooldown = 1
@@ -29,13 +29,15 @@ var meleeAttackDamage = 10
 signal currentHealthUpdated(newValue)
 signal playerHasReachedTheDoor()
 
+var invincibilityRemain = 0
+var invincibilityDuration = 2.0
+
 func _ready() -> void:
 	currentHealth = maxHealth
 	area_3d_hitbox.monitoring = false
 	
 
 func _process(_delta):
-	
 	handMovementVFX()
 	
 	if currentHealth <= 0:
@@ -54,6 +56,13 @@ func _process(_delta):
 		if uncontrolableRemain <= 0:
 			uncontrolableRemain = 0
 			controllable = true
+	
+	if isInvincible == true && invincibilityRemain > 0:
+		invincibilityRemain -= _delta
+		if invincibilityRemain <= 0:
+			invincibilityRemain = 0
+			isInvincible = false
+			animation_player_material.play("RESET")
 	
 	if controllable == true && Input.is_action_just_pressed("MeleeAttack"):
 		controllable = false
@@ -128,15 +137,15 @@ func playGroundSmokeVFX():
 	vfxInstance.queue_free()
 
 func applyDamage():
-	if currentHealth == 0 || isInvicible:
+	if currentHealth == 0 || isInvincible:
 		return
 	
 	currentHealth -= 1
 	controllable = false
 	
 	uncontrolableRemain += getHurtCooldown
-	
-	isInvicible = true
+	isInvincible = true
+	invincibilityRemain = invincibilityDuration
 	currentHealthUpdated.emit(currentHealth)
 	
 	if currentHealth <= 0 :
@@ -145,10 +154,7 @@ func applyDamage():
 		animation_tree.set("parameters/OneShotMelee/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_ABORT)
 		animation_tree.set("parameters/OneShotHurt/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 		animation_player_material.play("Flash_Invincible")
-		await get_tree().create_timer(2).timeout
-		animation_player_material.play("RESET")
-		isInvicible = false
-		
+
 
 func updateHorizontalVelocity():
 	velocity.x = move_toward(velocity.x, 0, 1)
@@ -183,3 +189,7 @@ func reachedTheDoor():
 	controllable = false
 	uncontrolableRemain = -1
 	playerHasReachedTheDoor.emit()
+	
+	isInvincible = true
+	invincibilityRemain = -1
+	animation_player_material.play("RESET")
