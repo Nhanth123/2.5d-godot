@@ -115,7 +115,7 @@ parameter_name = "Step"
 
 [resource]
 code = "shader_type spatial;
-render_mode blend_mix, depth_draw_always, cull_back, diffuse_toon, specular_disabled, shadows_disabled, alpha_to_coverage;
+render_mode blend_mix, depth_draw_always, depth_test_default, cull_back, diffuse_toon, specular_disabled, shadows_disabled, alpha_to_coverage;
 
 uniform float Offset;
 uniform sampler2D Noise;
